@@ -1,5 +1,7 @@
 package com.hcl.microservices.product.controller;
 
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,17 +21,17 @@ import reactor.core.publisher.Mono;
 @AllArgsConstructor
 public class ProductController {
 	
-	//private static final Logger log = LoggerFactory.getLogger(ProductController.class);
-	
 	@Autowired
 	private ProductRepository repository;
 	
+	// return all products
 	@RequestMapping(value = "/product/all", method=RequestMethod.GET, produces=("application/json"))
 	public Flux<ProductEntity> getAll() {
 		Flux<ProductEntity> product = repository.findAll();
 		return product;
 	}
 	
+	// return products by id
 	@RequestMapping(value = "/product/{product_id}", method=RequestMethod.GET, produces=("application/json"))
 	public ResponseEntity<Mono<ProductEntity>> getProductById(@PathVariable Long product_id) {
 		Mono<ProductEntity> productById = repository.findById(product_id);
@@ -37,12 +39,12 @@ public class ProductController {
 		return new ResponseEntity<Mono<ProductEntity>>(productById, status);
 	}
 	
+	// return products by category name using inner join from repository
 	@RequestMapping(value="/product/by-category/{category_name}", method=RequestMethod.GET, produces=("application/json"))
-	public Flux<ProductEntity> findByCategory(@PathVariable String category_name) {
-		Flux<ProductEntity> productsByCategory = repository.findByCategory(category_name);
+	public Flux<ProductEntity> findByCategory2(@PathVariable String category_name) {
+		Flux<ProductEntity> productsByCategory = repository.findByCategory2(category_name);
 		return productsByCategory;
 	}
-
-
+	
 
 }

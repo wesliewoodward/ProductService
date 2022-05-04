@@ -40,9 +40,5 @@ public class ProductEntity {
 	
 	@Column("product_review")
 	private String product_review;
-	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "categories_id",nullable = false)
-	//the name of the column in the other class and that name will be a column in the classprivate Categories product_category;
 
 }

@@ -12,10 +12,20 @@ import reactor.core.publisher.Flux;
 @Repository
 public interface ProductRepository extends ReactiveCrudRepository<ProductEntity, Long> {
 	
+	// join product + category tables
 	@Query("SELECT * FROM product p "
 			+ "INNER JOIN category c "
 			+ "ON p.product_id = c.product_id "
 			+ "WHERE c.category_name=:category_name")
 	Flux<ProductEntity> findByCategory(@Param("category_name") String category_name);
+	
+	// join product + category + product_category tables
+	@Query("SELECT * FROM product p "
+			+ "INNER JOIN product_category pc "
+			+ "ON p.product_id = pc.product_id "
+			+ "INNER JOIN category c "
+			+ "ON pc.category_id = c.category_id "
+			+ "WHERE c.category_name=:category_name")
+	Flux<ProductEntity> findByCategory2(@Param("category_name") String category_name);
 
 }
